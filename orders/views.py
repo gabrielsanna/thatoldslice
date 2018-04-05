@@ -3,4 +3,5 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Project 3: TODO")
+    context = {}
+    return render(request, "orders/index.html", context)
