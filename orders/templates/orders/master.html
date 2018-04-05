@@ -12,8 +12,37 @@
     	<link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
     </head>
     <body>
+        <div class="container">
+            <nav class="gabenav navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">That Old Slice</a>
+
+                <div class="navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" hr ef="/orders">My Past Orders</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mr-2">
+                        <li>
+                            <a class="nav-link btn-sm" href="/register">Register</a>
+                        </li>
+                        <li>
+                            <a class="nav-link btn-sm" href="/login">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
         {% block body %}
         {% endblock %}
+
+        </div>
         
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
