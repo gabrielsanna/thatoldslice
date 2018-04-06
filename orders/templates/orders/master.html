@@ -21,20 +21,35 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/menu">Place An Order</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/cart">Cart</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" hr ef="/orders">My Past Orders</a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Place An Order</a>
+                        </li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav ml-auto mr-2">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a class="nav-link btn-sm" href="/logout">Logout</a>
+                        </li>
+                        {% else %}
                         <li>
                             <a class="nav-link btn-sm" href="/register">Register</a>
                         </li>
                         <li>
                             <a class="nav-link btn-sm" href="/login">Login</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>

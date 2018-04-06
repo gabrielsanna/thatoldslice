@@ -1,0 +1,58 @@
+{% extends 'orders/master.html' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col">
+		</div>
+		<div class="col-9">
+			<h2>Register</h2>
+			<form method="post">
+		    	{% csrf_token %}
+
+				<p>
+					{% if form.username.errors %}
+					<div class="alert alert-danger pb-0" role="alert">
+						{{ form.username.errors }}
+					</div>
+					{% endif %}
+					<label for="{{ form.username.id_for_label }}">Username:</label> 
+					<input type="text" class="form-control" name="{{ form.username.html_name }}" maxlength="150" autofocus required id="{{ form.username.id_for_label }}" />
+					<span class="helptext text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>
+				</p>
+				<p>
+					{% if form.password1.errors %}
+					<div class="alert alert-danger pb-0" role="alert">
+						{{ form.password1.errors }}
+					</div>
+					{% endif %}
+					<label for="{{ form.password1.id_for_label }}">Password:</label> 
+					<input type="password" class="form-control" name="{{ form.password1.html_name }}" required id="{{ form.password1.id_for_label }}" /> 
+					<span class="helptext text-muted">
+						<small>
+							<ul>
+								<li>Your password can&#39;t be too similar to your other personal information.</li>
+								<li>Your password must contain at least 8 characters.</li>
+								<li>Your password can&#39;t be a commonly used password.</li>
+								<li>Your password can&#39;t be entirely numeric.</li>
+							</ul>
+						</small>
+					</span>
+				</p>
+				<p>
+					{% if form.password2.errors %}
+					<div class="alert alert-danger pb-0" role="alert">
+						{{ form.password2.errors }}
+					</div>
+					{% endif %}
+					<label for="{{ form.password2.id_for_label }}">Password confirmation:</label> 
+					<input type="password" class="form-control" name="{{ form.password2.html_name }}" required id="{{ form.password2.id_for_label }}" /> 
+					<span class="helptext text-muted"><small>Enter the same password as before, for verification.</small></span>
+				</p>
+
+				<button type="submit" class="btn btn-primary">Register</button>
+			</form>
+		</div>
+		<div class="col">
+		</div>
+	</div>
+{% endblock %}
