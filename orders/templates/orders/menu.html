@@ -1,0 +1,29 @@
+{% extends 'orders/master.html' %}
+
+{% block body %}
+
+	<h3 class="menu-heading">Regular Pizzas</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for pizza in LargeRegularPizzas %}
+				<input class="btn btn-secondary" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
+	<h3 class="menu-heading">Sicilian Pizzas</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for pizza in LargeSicilianPizzas %}
+				<input class="btn btn-secondary" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
+{% endblock %}

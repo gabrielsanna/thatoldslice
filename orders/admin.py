@@ -6,8 +6,7 @@ from .models import *
 class PizzaToppingAdmin(admin.ModelAdmin):
 	pass
 
-admin.site.register(RegularPizza)
-admin.site.register(SicilianPizza)
+admin.site.register(Pizza)
 admin.site.register(PizzaTopping, PizzaToppingAdmin)
 admin.site.register(Sub)
 admin.site.register(Pasta)

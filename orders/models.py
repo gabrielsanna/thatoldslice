@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class RegularPizza(models.Model):
+class Pizza(models.Model):
 	LARGE = 'Large'
 	SMALL = 'Small'
 	SIZE_CHOICES = (
@@ -9,27 +9,20 @@ class RegularPizza(models.Model):
 		(SMALL, 'Small'),
 	)
 
-	name = models.CharField(max_length=100)
-	price = models.DecimalField(max_digits=5, decimal_places=2)
-	size = models.CharField(max_length=5, choices=SIZE_CHOICES, default=SMALL)
-
-	def __str__(self):
-		return f"{self.name} ({self.size}): ${self.price}"
-
-class SicilianPizza(models.Model):
-	LARGE = 'Large'
-	SMALL = 'Small'
-	SIZE_CHOICES = (
-		(LARGE, 'Large'),
-		(SMALL, 'Small'),
+	REGULAR = 'Regular'
+	SICILIAN = 'Sicilian'
+	TYPE_CHOICES = (
+		(REGULAR, 'Regular'),
+		(SICILIAN, 'Sicilian'),
 	)
 
 	name = models.CharField(max_length=100)
-	price = models.DecimalField(max_digits=5, decimal_places=2)
+	pizza_type = models.CharField(max_length=8, choices=TYPE_CHOICES, default=REGULAR)
 	size = models.CharField(max_length=5, choices=SIZE_CHOICES, default=SMALL)
+	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
-		return f"{self.name} ({self.size}): ${self.price}"
+		return f"{self.pizza_type} {self.name.lower()} pizza ({self.size}): ${self.price}"
 
 class PizzaTopping(models.Model):
 	name = models.CharField(max_length=100)
