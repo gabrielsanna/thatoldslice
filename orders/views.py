@@ -27,10 +27,15 @@ def register(request):
 
 def menu(request):
 	context = {
-		"LargeRegularPizzas": Pizza.objects.filter(type="Regular").filter(size="Large"),
-		"SmallRegularPizzas": Pizza.objects.filter(type="Regular").filter(size="Small"),
-		"LargeSicilianPizzas": Pizza.objects.filter(type="Sicilian").filter(size="Large"),
-		"SmallSicilianPizzas": Pizza.objects.filter(type="Sicilian").filter(size="Small"),
+		"LargeRegularPizzas": Pizza.objects.filter(pizza_type="Regular").filter(size="Large"),
+		"SmallRegularPizzas": Pizza.objects.filter(pizza_type="Regular").filter(size="Small"),
+		"LargeSicilianPizzas": Pizza.objects.filter(pizza_type="Sicilian").filter(size="Large"),
+		"SmallSicilianPizzas": Pizza.objects.filter(pizza_type="Sicilian").filter(size="Small"),
+		"LargeSubs": Sub.objects.filter(size="Large"),
+		"SmallSubs": Sub.objects.filter(size="Small"),
+		"Pastas": Pasta.objects.all(),
+		"Salads": Salad.objects.all(),
+		"LargeDinnerPlatters": DinnerPlatter.objects.filter(size="Large"),
 	}
 
 	return render(request, "orders/menu.html", context)

@@ -7,9 +7,18 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
+		<div class="btn-group btn-group-toggle" data-toggle="buttons">
+			<label class="btn btn-danger active">
+				<input type="radio" name="options" id="option1" autocomplete="off" checked> Large
+			</label>
+			<label class="btn btn-danger">
+				<input type="radio" name="options" id="option2" autocomplete="off"> Small
+			</label>
+		</div>
+
 		<div class="btn-group">
 		{% for pizza in LargeRegularPizzas %}
-				<input class="btn btn-secondary" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
 		{% endfor %}
 		</div>
 	</form>
@@ -21,9 +30,58 @@
 
 		<div class="btn-group">
 		{% for pizza in LargeSicilianPizzas %}
-				<input class="btn btn-secondary" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
 		{% endfor %}
 		</div>
 	</form>
+
+	<h3 class="menu-heading">Subs</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for sub in LargeSubs %}
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.name }}" name="{{ sub.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
+	<h3 class="menu-heading">Pasta</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for pasta in Pastas %}
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.name }}" name="{{ pasta.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
+	<h3 class="menu-heading">Salads</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for salad in Salads %}
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.name }}" name="{{ salad.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
+	<h3 class="menu-heading">Dinner Platters</h3>		
+
+	<form action="/add-to-cart" method="post">
+	    {% csrf_token %}
+
+		<div class="btn-group">
+		{% for platter in LargeDinnerPlatters %}
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.name }}" name="{{ platter.name }}">
+		{% endfor %}
+		</div>
+	</form>
+
 
 {% endblock %}
