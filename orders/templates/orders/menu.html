@@ -21,12 +21,27 @@
 			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
 		{% endfor %}
 		</div>
+
+		<div class="btn-group">
+		{% for pizza in SmallRegularPizzas %}
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+		{% endfor %}
+		</div>
 	</form>
 
 	<h3 class="menu-heading">Sicilian Pizzas</h3>		
 
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
+
+	    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+			<label class="btn btn-danger active">
+				<input type="radio" name="options" id="option1" autocomplete="off" checked> Large
+			</label>
+			<label class="btn btn-danger">
+				<input type="radio" name="options" id="option2" autocomplete="off"> Small
+			</label>
+		</div>
 
 		<div class="btn-group">
 		{% for pizza in LargeSicilianPizzas %}

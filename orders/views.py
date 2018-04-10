@@ -27,15 +27,15 @@ def register(request):
 
 def menu(request):
 	context = {
-		"LargeRegularPizzas": Pizza.objects.filter(pizza_type="Regular").filter(size="Large"),
-		"SmallRegularPizzas": Pizza.objects.filter(pizza_type="Regular").filter(size="Small"),
-		"LargeSicilianPizzas": Pizza.objects.filter(pizza_type="Sicilian").filter(size="Large"),
-		"SmallSicilianPizzas": Pizza.objects.filter(pizza_type="Sicilian").filter(size="Small"),
-		"LargeSubs": Sub.objects.filter(size="Large"),
-		"SmallSubs": Sub.objects.filter(size="Small"),
-		"Pastas": Pasta.objects.all(),
-		"Salads": Salad.objects.all(),
-		"LargeDinnerPlatters": DinnerPlatter.objects.filter(size="Large"),
+		"LargeRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Large"),
+		"SmallRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Small"),
+		"LargeSicilianPizzas": Entree.objects.filter(entree_type="Sicilian Pizza").filter(size="Large"),
+		"SmallSicilianPizzas": Entree.objects.filter(entree_type="Sicilian Pizza").filter(size="Small"),
+		"LargeSubs": Entree.objects.filter(entree_type="Sub").filter(size="Large"),
+		"SmallSubs": Entree.objects.filter(entree_type="Sub").filter(size="Small"),
+		"Pastas": Entree.objects.filter(entree_type="Pasta"),
+		"Salads": Entree.objects.filter(entree_type="Salad"),
+		"LargeDinnerPlatters": Entree.objects.filter(entree_type="Dinner Platter").filter(size="Large"),
 	}
 
 	return render(request, "orders/menu.html", context)

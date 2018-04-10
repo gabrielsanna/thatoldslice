@@ -4,3 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Entree)
 admin.site.register(PizzaTopping)
+admin.site.register(CustomerOrder)
