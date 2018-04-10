@@ -45,6 +45,7 @@ class CustomerOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     order_submitted = models.BooleanField(default=False)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    entree_included = models.ManyToManyField(Entree, through='MealsInOrder')
 
     def __str__(self):
     	if self.order_submitted:
@@ -53,4 +54,9 @@ class CustomerOrder(models.Model):
     		submitted = "Unsubmitted"
 
     	return f"{submitted} order by {self.user} at {self.created_at}"
+
+class MealsInOrder(models.Model):
+	order = models.ForeignKey('CustomerOrder', on_delete=models.CASCADE)
+	food_item = models.ForeignKey('Entree', on_delete=models.CASCADE)
+	toppings = models.ManyToManyField(PizzaTopping, blank=True, related_name="pizzas")
 
