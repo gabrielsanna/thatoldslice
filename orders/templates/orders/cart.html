@@ -1,9 +1,43 @@
 {% extends 'orders/master.html' %}
+{% load static %}
 
 {% block body %}
 
 	<h3 class="menu-heading">Your Cart</h3>
 
-	{{ CartOrder }}
+	{% if OrderEntrees %}
+	<table class="table">
+		<tr>
+			<th>Entree</th>
+			<th>Kind</th>
+			<th>Size</th>
+			<th>Price</th>
+			<th class="text-center">Delete</th>
+		</tr>
+		{% for entree in OrderEntrees %}
+		<tr>
+			<td>{{ entree.name }}</td>
+			<td>{{ entree.entree_type }}</td>
+			{% if entree.size == "None" %}
+			<td></td>
+			{% else %}
+			<td>{{ entree.size }}</td>
+			{% endif %}
+			<td>{{ entree.price }}</td>
+			<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<th></th>
+			<th></th>
+			<th><strong>Total: </strong></th>
+			<th>{{ Total }}</th>
+			<th></th>
+	</table>
+
+	<a class="btn btn-primary" href="/submit-order">Submit Order</a>
+	{% else %}
+	<p>There's nothing in your cart! Head to the <a href="/menu">menu</a> to add something.</p>
+	{% endif %}
 
 {% endblock %}

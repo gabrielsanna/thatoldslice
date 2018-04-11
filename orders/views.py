@@ -66,8 +66,20 @@ def single_order(request, order_id):
 
 # View to display a user's unsubmitted order
 def cart(request):
-	context = {
-		"CartOrder": CustomerOrder.objects.filter(user=request.user).get(order_submitted=False),
-	}
+	CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
+	OrderEntrees = CartOrder.entree_included.all()
+
+	if CartOrder:
+		Total = 0
+		for entree in OrderEntrees:
+			Total += entree.price
+
+		context = {
+			"OrderEntrees": OrderEntrees,
+			"Total": Total,
+		}
+	else:
+		context = {}
 
 	return render(request, "orders/cart.html", context)
+
