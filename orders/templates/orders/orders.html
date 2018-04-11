@@ -1,0 +1,15 @@
+{% extends 'orders/master.html' %}
+
+{% block body %}
+
+	<h3 class="menu-heading">Your Past Orders</h3>
+
+	<table class="table table-striped">
+		{% for order in PastOrders %}
+		<tr>
+			<td scope="row"><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}
