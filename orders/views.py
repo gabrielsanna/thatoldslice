@@ -39,3 +39,35 @@ def menu(request):
 	}
 
 	return render(request, "orders/menu.html", context)
+
+# View to display all of a user's past submitted orders
+def orders(request):
+	context = {
+		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True),
+	}
+
+	if request.user.is_authenticated:
+		return render(request, "orders/orders.html", context)
+	else:
+		return redirect('login')
+
+def single_order(request, order_id):
+	context = {
+		"OrderRequested": CustomerOrder.objects.get(id=order_id),
+		"Entrees": Entree.objects.prefetch_related('food_item__name')
+	}
+
+	orderUser = CustomerOrder.objects.get(id=order_id).user
+
+	if request.user == orderUser:
+		return render(request, "orders/single-order.html", context)
+	else:
+		return render(request, "orders/access-denied.html")
+
+# View to display a user's unsubmitted order
+def cart(request):
+	context = {
+		"CartOrder": CustomerOrder.objects.filter(user=request.user).get(order_submitted=False),
+	}
+
+	return render(request, "orders/cart.html", context)
