@@ -7,24 +7,24 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
-		<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<div class="btn-group btn-group-toggle" id="regular-pizza-option-group" data-toggle="buttons">
 			<label class="btn btn-danger active">
-				<input type="radio" name="options" id="option1" autocomplete="off" checked> Large
+				<input type="radio" name="regular-pizza-option" id="regular-pizza-option-large" autocomplete="off" value="Large" checked> Large
 			</label>
 			<label class="btn btn-danger">
-				<input type="radio" name="options" id="option2" autocomplete="off"> Small
+				<input type="radio" name="regular-pizza-option" id="regular-pizza-option-small" autocomplete="off" value="Small"> Small
 			</label>
 		</div>
 
-		<div class="btn-group">
+		<div id="large-regular-pizza-group" class="btn-group">
 		{% for pizza in LargeRegularPizzas %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+			<button class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}</button>
 		{% endfor %}
 		</div>
 
-		<div class="btn-group">
+		<div id="small-regular-pizza-group" class="btn-group">
 		{% for pizza in SmallRegularPizzas %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+			<button class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}</button>
 		{% endfor %}
 		</div>
 	</form>
@@ -45,7 +45,7 @@
 
 		<div class="btn-group">
 		{% for pizza in LargeSicilianPizzas %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.name }}" name="{{ pizza.name }}">
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">
 		{% endfor %}
 		</div>
 	</form>
@@ -55,10 +55,18 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
-		<div class="btn-group">
-		{% for sub in LargeSubs %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.name }}" name="{{ sub.name }}">
-		{% endfor %}
+	    <div class="row">
+	    	<div class="col">
+				<ul class="menu-list">
+				{% for sub in LargeSubs %}
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}</button></li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="col">
+			</div>
+			<div class="col">
+			</div>
 		</div>
 	</form>
 
@@ -67,10 +75,18 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
-		<div class="btn-group">
-		{% for pasta in Pastas %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.name }}" name="{{ pasta.name }}">
-		{% endfor %}
+		<div class="row">
+	    	<div class="col">
+				<ul class="menu-list">
+				{% for pasta in Pastas %}
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.id }}" name="entree">{{ pasta.name }}</button></li>
+				{% endfor %}
+				</ul>
+			</div>
+			<div class="col">
+			</div>
+			<div class="col">
+			</div>
 		</div>
 	</form>
 
@@ -81,7 +97,7 @@
 
 		<div class="btn-group">
 		{% for salad in Salads %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.name }}" name="{{ salad.name }}">
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.id }}" name="entree">
 		{% endfor %}
 		</div>
 	</form>
@@ -93,7 +109,7 @@
 
 		<div class="btn-group">
 		{% for platter in LargeDinnerPlatters %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.name }}" name="{{ platter.name }}">
+			<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.id }}" name="entree">
 		{% endfor %}
 		</div>
 	</form>

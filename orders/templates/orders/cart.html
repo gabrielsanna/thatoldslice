@@ -16,8 +16,8 @@
 		</tr>
 		{% for entree in OrderEntrees %}
 		<tr>
-			<td>{{ entree.name }}</td>
 			<td>{{ entree.entree_type }}</td>
+			<td>{{ entree.name }}</td>
 			{% if entree.size == "None" %}
 			<td></td>
 			{% else %}
@@ -25,6 +25,7 @@
 			{% endif %}
 			<td>{{ entree.price }}</td>
 			<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
+			{{ entree.toppingsasdf }}
 		</tr>
 		{% endfor %}
 		<tr>

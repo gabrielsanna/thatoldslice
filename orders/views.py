@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import *
 
@@ -40,6 +41,14 @@ def menu(request):
 
 	return render(request, "orders/menu.html", context)
 
+def add_to_cart(request):
+	if request.user.is_authenticated:
+#		meal_name = request.POST["passenger"]
+		pass
+	else:
+		return redirect('login')
+
+
 # View to display all of a user's past submitted orders
 def orders(request):
 	context = {
@@ -66,10 +75,10 @@ def single_order(request, order_id):
 
 # View to display a user's unsubmitted order
 def cart(request):
-	CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
-	OrderEntrees = CartOrder.entree_included.all()
+	try:
+		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
+		OrderEntrees = CartOrder.entree_included.all()
 
-	if CartOrder:
 		Total = 0
 		for entree in OrderEntrees:
 			Total += entree.price
@@ -78,8 +87,18 @@ def cart(request):
 			"OrderEntrees": OrderEntrees,
 			"Total": Total,
 		}
-	else:
+	except ObjectDoesNotExist:
 		context = {}
 
 	return render(request, "orders/cart.html", context)
+
+def submit(request):
+	try:
+		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
+		CartOrder.order_submitted = True
+		CartOrder.save()
+
+		return render(request, "orders/submitted.html")
+	except TypeError:
+		return render(request, "orders/access-denied.html")
 

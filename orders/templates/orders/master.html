@@ -2,66 +2,69 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>That Old Slice</title>
-        
+	<head>
+		<title>That Old Slice</title>
+		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    	<link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
-        <script src="{% static 'orders/orders.js' %}"></script>
-    </head>
-    <body>
-        <div class="container">
-            <nav class="gabenav navbar navbar-expand-lg navbar-light bg-light mb-4">
-                <a class="navbar-brand" href="/">That Old Slice</a>
+		<link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
+		<script src="{% static 'orders/orders.js' %}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<nav class="gabenav navbar navbar-expand-lg navbar-light bg-light mb-4">
+				<a class="navbar-brand" href="/">That Old Slice</a>
 
-                <div class="navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/menu">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cart">Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/orders">My Past Orders</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Place An Order</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="navbar-nav ml-auto mr-2">
-                        {% if user.is_authenticated %}
-                        <li>
-                            <a class="nav-link btn-sm" href="/logout">Logout</a>
-                        </li>
-                        {% else %}
-                        <li>
-                            <a class="nav-link btn-sm" href="/register">Register</a>
-                        </li>
-                        <li>
-                            <a class="nav-link btn-sm" href="/login">Login</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </nav>
+				<div class="navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						{% if user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link" href="/menu">Menu</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/cart">Cart</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/orders">My Past Orders</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="/menu">Menu</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/register">Place An Order</a>
+						</li>
+						{% endif %}
+					</ul>
+					<ul class="navbar-nav ml-auto mr-2">
+						{% if user.is_authenticated %}
+						<li>
+							<a class="nav-link btn-sm" href="/logout">Logout</a>
+						</li>
+						{% else %}
+						<li>
+							<a class="nav-link btn-sm" href="/register">Register</a>
+						</li>
+						<li>
+							<a class="nav-link btn-sm" href="/login">Login</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</nav>
 
-        {% block body %}
-        {% endblock %}
+		{% block body %}
+		{% endblock %}
 
-        </div>
-        
+		</div>
+		
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+	</body>
 </html>
