@@ -1,6 +1,8 @@
 {% extends 'orders/master.html' %}
+{% load static %}
 
 {% block body %}
+	<script src="{% static 'orders/menu.js' %}"></script>
 
 	<h3 class="menu-heading">Regular Pizzas</h3>		
 
@@ -18,13 +20,13 @@
 
 		<div id="large-regular-pizza-group" class="btn-group">
 		{% for pizza in LargeRegularPizzas %}
-			<button class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}</button>
+			<button class="btn btn-secondary btn-success pizza-btn" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}<br>${{ pizza.price }}</button>
 		{% endfor %}
 		</div>
 
-		<div id="small-regular-pizza-group" class="btn-group">
+		<div id="small-regular-pizza-group" class="btn-group hidden">
 		{% for pizza in SmallRegularPizzas %}
-			<button class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}</button>
+			<button class="btn btn-secondary btn-success pizza-btn" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}<br>${{ pizza.price }}</button>
 		{% endfor %}
 		</div>
 	</form>
@@ -34,18 +36,24 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
-	    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+	    <div class="btn-group btn-group-toggle" id="sicilian-pizza-option-group" data-toggle="buttons">
 			<label class="btn btn-danger active">
-				<input type="radio" name="options" id="option1" autocomplete="off" checked> Large
+				<input type="radio" name="sicilian-pizza-option" id="sicilian-pizza-option-large" autocomplete="off" value="Large" checked> Large
 			</label>
 			<label class="btn btn-danger">
-				<input type="radio" name="options" id="option2" autocomplete="off"> Small
+				<input type="radio" name="sicilian-pizza-option" id="sicilian-pizza-option-small" autocomplete="off" value="Small"> Small
 			</label>
 		</div>
 
-		<div class="btn-group">
+		<div id="large-sicilian-pizza-group" class="btn-group">
 		{% for pizza in LargeSicilianPizzas %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">
+			<button class="btn btn-secondary btn-success pizza-btn" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}<br>${{ pizza.price }}</button>
+		{% endfor %}
+		</div>
+
+		<div id="small-sicilian-pizza-group" class="btn-group hidden">
+		{% for pizza in SmallSicilianPizzas %}
+			<button class="btn btn-secondary btn-success pizza-btn" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}<br>${{ pizza.price }}</button>
 		{% endfor %}
 		</div>
 	</form>
@@ -59,7 +67,7 @@
 	    	<div class="col">
 				<ul class="menu-list">
 				{% for sub in LargeSubs %}
-					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}</button></li>
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
 				{% endfor %}
 				</ul>
 			</div>
@@ -79,7 +87,7 @@
 	    	<div class="col">
 				<ul class="menu-list">
 				{% for pasta in Pastas %}
-					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.id }}" name="entree">{{ pasta.name }}</button></li>
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.id }}" name="entree">{{ pasta.name }}: ${{ pasta.price }}</button></li>
 				{% endfor %}
 				</ul>
 			</div>
@@ -114,5 +122,24 @@
 		</div>
 	</form>
 
+	<div class="modal fade" id="toppingsModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="toppingsModalTitle">Choose toppings</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Hello
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-success">Add to cart</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

@@ -7,6 +7,6 @@ ul.menu-list {
 }
 
 /* Set hidden button group initial styles */
-#small-regular-pizza-group {
+.hidden {
 	display: none;
 }
