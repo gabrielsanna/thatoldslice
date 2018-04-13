@@ -28,6 +28,7 @@ def register(request):
 
 def menu(request):
 	context = {
+		"PizzaToppings": PizzaTopping.objects.all(),
 		"LargeRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Large"),
 		"SmallRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Small"),
 		"LargeSicilianPizzas": Entree.objects.filter(entree_type="Sicilian Pizza").filter(size="Large"),
