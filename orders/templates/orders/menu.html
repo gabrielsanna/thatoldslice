@@ -10,16 +10,16 @@
 
 	{% if messages %}
 	<div class="alert alert-success" role="alert">
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
+		{% for message in messages %}
+			{{ message }}
+		{% endfor %}
 	</div>
 	{% endif %}
 
 	<h3 class="menu-heading">Regular Pizzas</h3>		
 
 	<form action="/add-to-cart" method="post">
-	    {% csrf_token %}
+		{% csrf_token %}
 
 		<div class="btn-group btn-group-toggle" id="regular-pizza-option-group" data-toggle="buttons">
 			<label class="btn btn-danger active">
@@ -46,9 +46,9 @@
 	<h3 class="menu-heading">Sicilian Pizzas</h3>		
 
 	<form action="/add-to-cart" method="post">
-	    {% csrf_token %}
+		{% csrf_token %}
 
-	    <div class="btn-group btn-group-toggle" id="sicilian-pizza-option-group" data-toggle="buttons">
+		<div class="btn-group btn-group-toggle" id="sicilian-pizza-option-group" data-toggle="buttons">
 			<label class="btn btn-danger active">
 				<input type="radio" name="sicilian-pizza-option" id="sicilian-pizza-option-large" autocomplete="off" value="Large" checked> Large
 			</label>
@@ -75,10 +75,10 @@
 			<h3 class="menu-heading">Subs</h3>	
 
 			<form action="/add-to-cart/" method="post">
-			    {% csrf_token %}
-	    	
-	    		<ul class="mb-1">
-	    			<li class="btn-group btn-block btn-group-toggle d-flex" id="sub-option-group" data-toggle="buttons" role="group">
+				{% csrf_token %}
+			
+				<ul class="mb-1">
+					<li class="btn-group btn-block btn-group-toggle d-flex" id="sub-option-group" data-toggle="buttons" role="group">
 						<label class="btn btn-danger active w-100">
 							<input type="radio" name="sub-option" id="sub-option-large" autocomplete="off" value="Large" checked> Large
 						</label>
@@ -105,7 +105,7 @@
 			<h3 class="menu-heading">Pasta</h3>		
 
 			<form action="/add-to-cart/" method="post">
-			    {% csrf_token %}
+				{% csrf_token %}
 
 				<ul class="menu-list">
 				{% for pasta in Pastas %}
@@ -117,8 +117,8 @@
 			<h3 class="menu-heading">Salads</h3>		
 
 			<form action="/add-to-cart/" method="post">
-			    {% csrf_token %}
-  	
+				{% csrf_token %}
+	
 				<ul class="menu-list">
 				{% for salad in Salads %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.id }}" name="entree">{{ salad.name }}: ${{ salad.price }}</button></li>
@@ -132,10 +132,10 @@
 			<h3 class="menu-heading">Dinner Platters</h3>		
 
 			<form action="/add-to-cart/" method="post">
-			    {% csrf_token %}
-	    	
-	    		<ul class="mb-1">
-	    			<li class="btn-group btn-block btn-group-toggle d-flex" id="dinner-platter-option-group" data-toggle="buttons" role="group">
+				{% csrf_token %}
+			
+				<ul class="mb-1">
+					<li class="btn-group btn-block btn-group-toggle d-flex" id="dinner-platter-option-group" data-toggle="buttons" role="group">
 						<label class="btn btn-danger active w-100">
 							<input type="radio" name="dinner-platter-option" id="dinner-platter-option-large" autocomplete="off" value="Large" checked> Large
 						</label>

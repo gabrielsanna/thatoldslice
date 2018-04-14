@@ -7,10 +7,13 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.utils.datastructures import MultiValueDictKeyError
 
 from .models import *
 
 # Create your views here.
+
+# Homepage with sweet public domain hero image
 def index(request):
 	context = {
 		"PendingOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=False),
@@ -19,6 +22,7 @@ def index(request):
 
 	return render(request, "orders/index.html", context)
 
+# Page to register a new user
 def register(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
@@ -34,6 +38,7 @@ def register(request):
 		form = UserCreationForm()
 	return render(request, 'orders/register.html', {'form': form})
 
+# Query all the entrees in the database and build the menu
 def menu(request):
 	context = {
 		"PizzaToppings": PizzaTopping.objects.all(),
@@ -51,6 +56,7 @@ def menu(request):
 
 	return render(request, "orders/menu.html", context)
 
+# Add an item to cart (used for everything except pizzas)
 def add_to_cart(request):
 	if request.user.is_authenticated:
 		entreeId = int(request.POST["entree"])
@@ -74,11 +80,16 @@ def add_to_cart(request):
 	else:
 		return redirect('login')
 
+# Function to add a pizza to cart
+# Pizzas get special treatment because they require use of the "toppings" relationship
 def add_pizza_to_cart(request):
 	if request.user.is_authenticated:
 		pizzaId = int(request.POST["pizzaId"])
-		toppingIdList = request.POST["checkedToppings"]
-		toppingIdList = toppingIdList.split(',')
+		try:
+			toppingIdList = request.POST["checkedToppings"]
+			toppingIdList = toppingIdList.split(',')
+		except MultiValueDictKeyError:
+			toppingIdList = []
 
 		# Instantiate all our objects
 		currentUser = User.objects.get(id=request.user.id)
@@ -102,15 +113,18 @@ def add_pizza_to_cart(request):
 
 		messages.add_message(request, messages.INFO, f"Added to cart: {str(newPizza)}")
 
-		return redirect('menu')
+		return "Success"
 	else:
 		return redirect('login')
 
+# Delete an item from the cart and reload the cart
 def delete(request, order_entree_id):
 	# Get the item to be deleted from the database
 	itemToDelete = MealsInOrder.objects.get(id=order_entree_id)
 
 	itemToDelete.delete()
+
+	messages.add_message(request, messages.INFO, f"Item deleted.")
 
 	return redirect('cart')
 
@@ -138,6 +152,7 @@ def all_orders(request):
 	else:
 		return render(request, "orders/access-denied.html")
 
+# Mark an order as "completed" (no longer pending)
 def complete_order(request, order_id):
 	if request.user.is_superuser:
 		orderToComplete = CustomerOrder.objects.get(id=order_id)
@@ -148,6 +163,7 @@ def complete_order(request, order_id):
 	else:
 		return render(request, "orders/access-denied.html")
 
+# Mark a completed order as incomplete (if something went wrong)
 def reopen(request, order_id):
 	if request.user.is_superuser:
 		orderToComplete = CustomerOrder.objects.get(id=order_id)
@@ -158,6 +174,7 @@ def reopen(request, order_id):
 	else:
 		return render(request, "orders/access-denied.html")
 
+# Page to view the items in a single historical order
 def single_order(request, order_id):
 	OrderRequested = CustomerOrder.objects.get(id=order_id)
 	EntreesInOrder = MealsInOrder.objects.filter(order=OrderRequested)
@@ -173,7 +190,7 @@ def single_order(request, order_id):
 		"Total": Total,
 	}
 
-	if request.user == OrderUser:
+	if request.user == OrderUser or request.user.is_superuser:
 		return render(request, "orders/single-order.html", context)
 	else:
 		return render(request, "orders/access-denied.html")
@@ -197,6 +214,7 @@ def cart(request):
 
 	return render(request, "orders/cart.html", context)
 
+# Submit an order (clears cart, shows up to admins)
 def submit(request):
 	try:
 		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
