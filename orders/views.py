@@ -45,8 +45,22 @@ def menu(request):
 
 def add_to_cart(request):
 	if request.user.is_authenticated:
-#		meal_name = request.POST["passenger"]
-		pass
+		entreeId = int(request.POST["entree"])
+
+		# Instantiate objects
+		currentUser = User.objects.get(id=request.user.id)
+		currentEntree = Entree.objects.get(id=entreeId)
+
+		# Check if there's an unsubmitted order and create one if not
+		try:
+			cartOrder = CustomerOrder.objects.filter(user=currentUser).get(order_submitted="False")
+		except ObjectDoesNotExist:
+			cartOrder = CustomerOrder.objects.create(user=currentUser)
+
+		newEntree = MealsInOrder(order=cartOrder, food_item=currentEntree)
+		newEntree.save()
+
+		return redirect('menu')
 	else:
 		return redirect('login')
 
@@ -80,6 +94,14 @@ def add_pizza_to_cart(request):
 	else:
 		return redirect('login')
 
+def delete(request, order_entree_id):
+	# Get the item to be deleted from the database
+	itemToDelete = MealsInOrder.objects.get(id=order_entree_id)
+
+	itemToDelete.delete()
+
+	return redirect('cart')
+
 # View to display all of a user's past submitted orders
 def orders(request):
 	context = {
@@ -92,14 +114,21 @@ def orders(request):
 		return redirect('login')
 
 def single_order(request, order_id):
+	OrderRequested = CustomerOrder.objects.get(id=order_id)
+	EntreesInOrder = MealsInOrder.objects.filter(order=OrderRequested)
+	OrderUser = OrderRequested.user
+
+	Total = 0
+	for entree in EntreesInOrder:
+		Total += entree.food_item.price
+
 	context = {
-		"OrderRequested": CustomerOrder.objects.get(id=order_id),
-		"Entrees": Entree.objects.prefetch_related('food_item__name')
+		"OrderRequested": OrderRequested,
+		"EntreesInOrder": EntreesInOrder,
+		"Total": Total,
 	}
 
-	orderUser = CustomerOrder.objects.get(id=order_id).user
-
-	if request.user == orderUser:
+	if request.user == OrderUser:
 		return render(request, "orders/single-order.html", context)
 	else:
 		return render(request, "orders/access-denied.html")
@@ -108,11 +137,11 @@ def single_order(request, order_id):
 def cart(request):
 	try:
 		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
-		OrderEntrees = CartOrder.entree_included.all()
+		OrderEntrees = MealsInOrder.objects.filter(order=CartOrder)
 
 		Total = 0
 		for entree in OrderEntrees:
-			Total += entree.price
+			Total += entree.food_item.price
 
 		context = {
 			"OrderEntrees": OrderEntrees,

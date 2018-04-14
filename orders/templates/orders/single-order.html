@@ -2,12 +2,38 @@
 
 {% block body %}
 
-	<h3 class="menu-heading">{{ OrderRequested.updated_at }}</h3>
+	<h3 class="menu-heading">Your order from {{ OrderRequested.updated_at }}</h3>
 
-	<ul>
-		{% for entree in Entrees %}
-		{{ entree }}
+	{% if EntreesInOrder %}
+	<table class="table">
+		<tr>
+			<th>Entree</th>
+			<th>Kind</th>
+			<th>Size</th>
+			<th>Price</th>
+		</tr>
+		{% for entree in EntreesInOrder %}
+		<tr>
+			<td>{{ entree.food_item.entree_type }}</td>
+			<td>{{ entree.food_item.name }}</td>
+			{% if entree.food_item.size == "None" %}
+			<td></td>
+			{% else %}
+			<td>{{ entree.food_item.size }}</td>
+			{% endif %}
+			<td>{{ entree.food_item.price }}</td>
+		</tr>
 		{% endfor %}
-	</ul>
+		<tr>
+			<th></th>
+			<th></th>
+			<th><strong>Total: </strong></th>
+			<th>{{ Total }}</th>
+		</tr>
+	</table>
+
+	{% else %}
+	<p>There's nothing in this order! That's pretty weird.</p>
+	{% endif %}
 
 {% endblock %}
