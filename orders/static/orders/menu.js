@@ -1,10 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-	// Get all the buttons that may require toppings
+	// Get all the buttons from pizzas that may require toppings
 	var pizzaButtons = document.getElementsByClassName("pizza-btn");
 
 	// Attach listeners to all those buttons
     Array.from(pizzaButtons).forEach(function(element) {
 		element.addEventListener('click', processPizzaButton);
+    });
+
+    // Get all Steak and Cheese buttons that may require toppings
+    var steakCheeseButtons = document.getElementsByClassName("steak-cheese-btn");
+
+    // Attach listeners to all those buttons
+    Array.from(steakCheeseButtons).forEach(function(element) {
+		element.addEventListener('click', processSteakCheeseButton);
     });
 
     // Set up listener for Regular Pizza sizes
@@ -93,6 +101,23 @@ function processPizzaButton(event) {
 	}
 }
 
+// Open the modal window for Steak and Cheese toppings
+function processSteakCheeseButton(event) {
+	event.preventDefault();
+	subId = this.value;
+
+	// Bring up the modal window to pick toppings
+	$('#steakCheeseToppingsModal').modal({
+		focus: true
+	});
+
+	// Add listener for "Add to Cart" button
+	document.querySelector('#sub-modal-add-to-cart-btn').onclick = () => {
+		checkedToppings = checkCheckedToppings();
+		processModalSubmitButton(subId, checkedToppings);
+	}
+}
+
 // Loop through the list of topping checkboxes and gather the checked ones
 function checkCheckedToppings() {
 	var checkboxList = document.getElementsByName("topping");
@@ -173,6 +198,7 @@ function processNoToppingsPizzaButton(pizzaId) {
 
 // When the add to cart button in the modal window is pressed, submit a POST
 //   request with the pizza info and reload the page
+//   This also works for Steak and Cheese subs
 function processModalSubmitButton(pizzaId, checkedToppings) {
 	const request = new XMLHttpRequest();
 	request.open('POST', '/add-pizza-to-cart/');

@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block body %}
-	<script src="{% static 'orders/cart.js' %}"></script>
-
 	{% if messages %}
 	<div class="alert alert-danger" role="alert">
         {% for message in messages %}
@@ -25,24 +23,53 @@
 		</tr>
 		{% for entree in OrderEntrees %}
 		<tr>
-			<td>{{ entree.food_item.entree_type }}</td>
-			<td>
-				{{ entree.food_item.name }}
-				{% if entree.toppings.all %}
-					<ul>
-						{% for topping in entree.toppings.all %}
-						<li>{{ topping }}</li>
-						{% endfor %}
-					</ul>
+			{% if entree.food_item.entree_type == "Sub" %}
+				<td>{{ entree.food_item.entree_type }}</td>
+				<td>
+					{{ entree.food_item.name }}
+					{% if entree.subToppings.all %}
+						<ul>
+							{% for topping in entree.subToppings.all %}
+							<li>{{ topping.pizzaTopping.name }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</td>
+				{% if entree.food_item.size == "None" %}
+				<td></td>
+				{% else %}
+				<td>{{ entree.food_item.size }}</td>
 				{% endif %}
-			</td>
-			{% if entree.food_item.size == "None" %}
-			<td></td>
+				<td>
+					{{ entree.food_item.price }}
+					{% if entree.subToppings.all %}
+						{% for topping in entree.subToppings.all %}
+						<br>+{{ topping.price }}
+						{% endfor %}
+					{% endif %}
+				</td>
+				<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
 			{% else %}
-			<td>{{ entree.food_item.size }}</td>
-			{% endif %}
-			<td>{{ entree.food_item.price }}</td>
-			<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
+				<td>{{ entree.food_item.entree_type }}</td>
+				<td>
+					{{ entree.food_item.name }}
+					{% if entree.toppings.all %}
+						<ul>
+							{% for topping in entree.toppings.all %}
+							<li>{{ topping }}</li>
+							{% endfor %}
+						</ul>
+
+					{% endif %}
+				</td>
+				{% if entree.food_item.size == "None" %}
+				<td></td>
+				{% else %}
+				<td>{{ entree.food_item.size }}</td>
+				{% endif %}
+				<td>{{ entree.food_item.price }}</td>
+				<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
+			{% endif %}				
 		</tr>
 		{% endfor %}
 		<tr>

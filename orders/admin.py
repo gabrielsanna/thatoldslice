@@ -12,4 +12,5 @@ class CustomerOrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Entree)
 admin.site.register(PizzaTopping)
+admin.site.register(SteakCheeseTopping)
 admin.site.register(CustomerOrder, CustomerOrderAdmin)

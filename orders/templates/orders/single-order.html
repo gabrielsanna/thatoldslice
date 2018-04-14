@@ -18,23 +18,51 @@
 		</tr>
 		{% for entree in EntreesInOrder %}
 		<tr>
-			<td>{{ entree.food_item.entree_type }}</td>
-			<td>
-				{{ entree.food_item.name }}
-				{% if entree.toppings.all %}
-					<ul>
-						{% for topping in entree.toppings.all %}
-						<li>{{ topping }}</li>
-						{% endfor %}
-					</ul>
+			{% if entree.food_item.entree_type == "Sub" %}
+				<td>{{ entree.food_item.entree_type }}</td>
+				<td>
+					{{ entree.food_item.name }}
+					{% if entree.subToppings.all %}
+						<ul>
+							{% for topping in entree.subToppings.all %}
+							<li>{{ topping.pizzaTopping.name }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</td>
+				{% if entree.food_item.size == "None" %}
+				<td></td>
+				{% else %}
+				<td>{{ entree.food_item.size }}</td>
 				{% endif %}
-			</td>
-			{% if entree.food_item.size == "None" %}
-			<td></td>
+				<td>
+					{{ entree.food_item.price }}
+					{% if entree.subToppings.all %}
+						{% for topping in entree.subToppings.all %}
+						<br>+{{ topping.price }}
+						{% endfor %}
+					{% endif %}
+				</td>
+
 			{% else %}
-			<td>{{ entree.food_item.size }}</td>
+				<td>{{ entree.food_item.entree_type }}</td>
+				<td>
+					{{ entree.food_item.name }}
+					{% if entree.toppings.all %}
+						<ul>
+							{% for topping in entree.toppings.all %}
+							<li>{{ topping }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</td>
+				{% if entree.food_item.size == "None" %}
+				<td></td>
+				{% else %}
+				<td>{{ entree.food_item.size }}</td>
+				{% endif %}
+				<td>{{ entree.food_item.price }}</td>
 			{% endif %}
-			<td>{{ entree.food_item.price }}</td>
 		</tr>
 		{% endfor %}
 		<tr>

@@ -42,6 +42,7 @@ def register(request):
 def menu(request):
 	context = {
 		"PizzaToppings": PizzaTopping.objects.all(),
+		"SteakCheeseToppings": SteakCheeseTopping.objects.all(),
 		"LargeRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Large"),
 		"SmallRegularPizzas": Entree.objects.filter(entree_type="Regular Pizza").filter(size="Small"),
 		"LargeSicilianPizzas": Entree.objects.filter(entree_type="Sicilian Pizza").filter(size="Large"),
@@ -82,6 +83,7 @@ def add_to_cart(request):
 
 # Function to add a pizza to cart
 # Pizzas get special treatment because they require use of the "toppings" relationship
+# This function also applies to Steak and Cheese subs
 def add_pizza_to_cart(request):
 	if request.user.is_authenticated:
 		pizzaId = int(request.POST["pizzaId"])
@@ -95,9 +97,14 @@ def add_pizza_to_cart(request):
 		currentUser = User.objects.get(id=request.user.id)
 		currentPizza = Entree.objects.get(id=pizzaId)
 		toppingList = []
-		for toppingId in toppingIdList:
-			topping = PizzaTopping.objects.get(id=int(toppingId))
-			toppingList.append(topping)
+		if currentPizza.entree_type == "Sub":
+			for toppingId in toppingIdList:
+				topping = SteakCheeseTopping.objects.get(id=int(toppingId))
+				toppingList.append(topping)
+		else:
+			for toppingId in toppingIdList:
+				topping = PizzaTopping.objects.get(id=int(toppingId))
+				toppingList.append(topping)
 
 		# Check if there's an unsubmitted order and create one if not
 		try:
@@ -105,12 +112,19 @@ def add_pizza_to_cart(request):
 		except ObjectDoesNotExist:
 			cartOrder = CustomerOrder.objects.create(user=currentUser)
 
+		# Save our entree into the order
 		newPizza = MealsInOrder(order=cartOrder, food_item=currentPizza)
 		newPizza.save()
 
-		for topping in toppingList:
-			newPizza.toppings.add(topping)
+		# Check if we're dealing with a Sub or a Pizza and add toppings accordingly
+		if currentPizza.entree_type == "Sub":
+			for topping in toppingList:
+				newPizza.subToppings.add(topping)
+		else:
+			for topping in toppingList:
+				newPizza.toppings.add(topping)
 
+		# Post a success message to appear on page load
 		messages.add_message(request, messages.INFO, f"Added to cart: {str(newPizza)}")
 
 		return "Success"
@@ -180,9 +194,14 @@ def single_order(request, order_id):
 	EntreesInOrder = MealsInOrder.objects.filter(order=OrderRequested)
 	OrderUser = OrderRequested.user
 
+	# Total up the cost of the order
 	Total = 0
 	for entree in EntreesInOrder:
 		Total += entree.food_item.price
+
+		if entree.food_item.entree_type == "Sub":
+			for topping in entree.subToppings.all():
+				Total += topping.price
 
 	context = {
 		"OrderRequested": OrderRequested,
@@ -201,9 +220,14 @@ def cart(request):
 		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
 		OrderEntrees = MealsInOrder.objects.filter(order=CartOrder)
 
+		# Total up the cost of the order
 		Total = 0
 		for entree in OrderEntrees:
 			Total += entree.food_item.price
+
+			if entree.food_item.entree_type == "Sub":
+				for topping in entree.subToppings.all():
+					Total += topping.price
 
 		context = {
 			"OrderEntrees": OrderEntrees,

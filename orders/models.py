@@ -44,12 +44,22 @@ class Entree(models.Model):
 
 		return f"{nameString} {self.entree_type.lower()} ({self.size}): ${self.price}"
 
-# Model for toppings on pizzas (and Steak+Cheese subs)
+# Model for toppings on pizzas
 class PizzaTopping(models.Model):
 	name = models.CharField(max_length=100)
 
 	def __str__(self):
 		return f"{self.name}"
+
+# Model for toppings on Steak+Cheese subs
+# Annoying that this is necessary, but it lets admins add more toppings
+#   for this sandwich without hard coding what's allowed
+class SteakCheeseTopping(models.Model):
+	pizzaTopping = models.ForeignKey('PizzaTopping', on_delete=models.CASCADE)
+	price = models.DecimalField(max_digits=5, decimal_places=2, default=0.50)
+
+	def __str__(self):
+		return f"{self.pizzaTopping.name}"
 
 # Model for orders
 class CustomerOrder(models.Model):
@@ -76,6 +86,7 @@ class MealsInOrder(models.Model):
 	order = models.ForeignKey('CustomerOrder', on_delete=models.CASCADE)
 	food_item = models.ForeignKey('Entree', on_delete=models.CASCADE)
 	toppings = models.ManyToManyField(PizzaTopping, blank=True, related_name="pizzas")
+	subToppings = models.ManyToManyField(SteakCheeseTopping, blank=True, related_name="subtoppings")
 
 	def __str__(self):
 		if "Salad" in self.food_item.name and self.food_item.entree_type != "Dinner Platter":

@@ -89,13 +89,21 @@
 				</ul>
 				<ul class="menu-list" id="large-sub-list">
 				{% for sub in LargeSubs %}
+					{% if sub.name == "Steak and Cheese" %}
+					<li class="mb-1"><button class="btn btn-block btn-success steak-cheese-btn" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
+					{% else %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
+					{% endif %}
 				{% endfor %}
 				</ul>
 
 				<ul class="menu-list hidden" id="small-sub-list">
 				{% for sub in SmallSubs %}
+					{% if sub.name == "Steak and Cheese" %}
+					<li class="mb-1"><button class="btn btn-block btn-success steak-cheese-btn" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
+					{% else %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
+					{% endif %}
 				{% endfor %}
 				</ul>
 			</form>
@@ -159,6 +167,7 @@
 		</div>
 	</div>
 
+	<!-- Begin modal window for pizza toppings -->
 	<div class="modal fade" id="toppingsModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -194,5 +203,43 @@
 			</div>
 		</div>
 	</div>
+	<!-- End modal window for pizza toppings -->
+
+	<!-- Begin modal window for steak and cheese toppings (ugh nonstandard sandwich)-->
+	<div class="modal fade" id="steakCheeseToppingsModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="steakCheeseToppingsModalTitle">Choose up to 3 toppings</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="btn-group-toggle" data-toggle="buttons">
+						<div class="row">
+						{% for topping in SteakCheeseToppings %}
+							<div class="col">
+								<label class="btn btn-outline-success topping-btn">
+									<input type="checkbox" name="topping" value="{{ topping.id }}" autocomplete="off"> {{ topping.pizzaTopping.name }}
+								</label>
+							</div>
+							{% if forloop.counter|divisibleby:2 %}
+						</div>
+						<div class="row">
+							{% endif %}
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-success" id="sub-modal-add-to-cart-btn">Add to cart</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End modal window for steak and cheese toppings -->
 
 {% endblock %}
