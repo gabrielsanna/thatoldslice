@@ -8,7 +8,7 @@ class MealsInOrderInline(admin.TabularInline):
 	extra = 1
 
 class CustomerOrderAdmin(admin.ModelAdmin):
-    inlines = (MealsInOrderInline,)
+	inlines = (MealsInOrderInline,)
 
 admin.site.register(Entree)
 admin.site.register(PizzaTopping)
