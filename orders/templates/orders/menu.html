@@ -123,14 +123,30 @@
 
 			<h3 class="menu-heading">Dinner Platters</h3>		
 
-			<form action="/add-to-cart" method="post">
+			<form action="/add-to-cart/" method="post">
 			    {% csrf_token %}
-
-				<div class="btn-group">
+	    	
+	    		<ul class="mb-1">
+	    			<li class="btn-group btn-block btn-group-toggle d-flex" id="dinner-platter-option-group" data-toggle="buttons" role="group">
+						<label class="btn btn-danger active w-100">
+							<input type="radio" name="dinner-platter-option" id="dinner-platter-option-large" autocomplete="off" value="Large" checked> Large
+						</label>
+						<label class="btn btn-danger w-100">
+							<input type="radio" name="dinner-platter-option" id="dinner-platter-option-small" autocomplete="off" value="Small"> Small
+						</label>
+					</li>
+				</ul>
+				<ul class="menu-list" id="large-dinner-platter-list">
 				{% for platter in LargeDinnerPlatters %}
-					<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.id }}" name="entree">
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ platter.id }}" name="entree">{{ platter.name }}: ${{ platter.price }}</button></li>
 				{% endfor %}
-				</div>
+				</ul>
+
+				<ul class="menu-list hidden" id="small-dinner-platter-list">
+				{% for platter in SmallDinnerPlatters %}
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ platter.id }}" name="entree">{{ platter.name }}: ${{ platter.price }}</button></li>
+				{% endfor %}
+				</ul>
 			</form>
 		</div>
 	</div>

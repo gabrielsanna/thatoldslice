@@ -45,6 +45,11 @@
 					</ul>
 					<ul class="navbar-nav ml-auto mr-2">
 						{% if user.is_authenticated %}
+							{% if user.is_superuser %}
+						<li>
+							<a class="nav-link btn-sm text-light" href="/all-orders">All Orders</a>
+						</li>
+							{% endif %}
 						<li>
 							<a class="nav-link btn-sm text-light" href="/logout">Logout</a>
 						</li>

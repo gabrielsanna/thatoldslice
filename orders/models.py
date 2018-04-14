@@ -55,6 +55,7 @@ class CustomerOrder(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	order_submitted = models.BooleanField(default=False)
+	order_completed = models.BooleanField(default=False)
 	user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 	entree_included = models.ManyToManyField(Entree, through='MealsInOrder')
 

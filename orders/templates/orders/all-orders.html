@@ -1,0 +1,27 @@
+{% extends 'orders/master.html' %}
+{% load static %}
+
+{% block body %}
+
+	<h3 class="menu-heading">All User Orders</h3>
+
+	<table class="table table-striped">
+		<tr>
+			<th>User</th>
+			<th>Date and Time</th>
+			<th class="text-center">Order Completed?</th>
+		<tr>
+		{% for order in allOrders %}
+		<tr>
+			<td>{{ order.user }}</td>
+			<td scope="row"><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></td>
+			{% if order.order_completed %}
+			<td class="text-center"><img src="{% static 'orders/img/check.svg' %}"><a href="/reopen/{{ order.id }}"> Reopen</a></td>
+			{% else %}
+			<td class="text-center"><a href="/complete-order/{{ order.id }}">Mark Complete</a></td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}

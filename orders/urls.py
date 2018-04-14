@@ -13,6 +13,7 @@ urlpatterns = [
 	path("add-pizza-to-cart/", views.add_pizza_to_cart, name="add pizza to cart"),
 	path("delete/<int:order_entree_id>", views.delete, name="delete"),
 	path("orders/", views.orders, name="orders"),
+	path("all-orders/", views.all_orders, name="all orders"),
 	path("order/<int:order_id>", views.single_order, name="single order"),
 	path("cart/", views.cart, name="cart"),
 	path("submit-order/", views.submit, name="submit"),

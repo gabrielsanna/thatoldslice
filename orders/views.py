@@ -12,7 +12,7 @@ def index(request):
 	context = {
 		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True),
 	}
-	
+
 	return render(request, "orders/index.html", context)
 
 def register(request):
@@ -42,6 +42,7 @@ def menu(request):
 		"Pastas": Entree.objects.filter(entree_type="Pasta"),
 		"Salads": Entree.objects.filter(entree_type="Salad"),
 		"LargeDinnerPlatters": Entree.objects.filter(entree_type="Dinner Platter").filter(size="Large"),
+		"SmallDinnerPlatters": Entree.objects.filter(entree_type="Dinner Platter").filter(size="Small"),
 	}
 
 	return render(request, "orders/menu.html", context)
@@ -115,6 +116,18 @@ def orders(request):
 		return render(request, "orders/orders.html", context)
 	else:
 		return redirect('login')
+
+def all_orders(request):
+	if request.user.is_superuser:
+		allOrders = CustomerOrder.objects.all()
+
+		context = {
+			"allOrders": allOrders,
+		}
+
+		return render(request, "orders/all-orders.html", context)
+	else:
+		return render(request, "orders/access-denied.html")
 
 def single_order(request, order_id):
 	OrderRequested = CustomerOrder.objects.get(id=order_id)

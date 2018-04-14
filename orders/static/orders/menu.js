@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.querySelector('#sub-option-group').onclick = () => {
 		processSubButton();
 	}
+
+	// Listener for Dinner Platter sizes
+	document.querySelector('#dinner-platter-option-group').onclick = () => {
+		processDinnerPlatterButton();
+	}
 });
 
 function processPizzaButton(event) {
@@ -131,6 +136,11 @@ function processSicilianPizzaButton() {
 function processSubButton() {
 	document.querySelector('#large-sub-list').classList.toggle("hidden");
 	document.querySelector('#small-sub-list').classList.toggle("hidden");	
+}
+
+function processDinnerPlatterButton() {
+	document.querySelector('#large-dinner-platter-list').classList.toggle("hidden");
+	document.querySelector('#small-dinner-platter-list').classList.toggle("hidden");
 }
 
 function processModalSubmitButton(pizzaId, checkedToppings) {
