@@ -11,13 +11,24 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 from .models import *
 
+# Function to get the number of new orders for admins
+def get_pending_orders(request):
+	if request.user.is_superuser:
+		pendingOrders = CustomerOrder.objects.filter(order_submitted=True).filter(order_completed=False)
+		return len(pendingOrders)
+	else:
+		return 0
+
 # Create your views here.
 
 # Homepage with sweet public domain hero image
 def index(request):
+	AdminPendingOrders = get_pending_orders(request)
+
 	context = {
 		"PendingOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=False),
 		"CompletedOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=True),
+		"AdminPendingOrders": AdminPendingOrders,
 	}
 
 	return render(request, "orders/index.html", context)
@@ -40,6 +51,8 @@ def register(request):
 
 # Query all the entrees in the database and build the menu
 def menu(request):
+	AdminPendingOrders = get_pending_orders(request)
+
 	context = {
 		"PizzaToppings": PizzaTopping.objects.all(),
 		"SteakCheeseToppings": SteakCheeseTopping.objects.all(),
@@ -53,6 +66,7 @@ def menu(request):
 		"Salads": Entree.objects.filter(entree_type="Salad"),
 		"LargeDinnerPlatters": Entree.objects.filter(entree_type="Dinner Platter").filter(size="Large"),
 		"SmallDinnerPlatters": Entree.objects.filter(entree_type="Dinner Platter").filter(size="Small"),
+		"AdminPendingOrders": AdminPendingOrders,
 	}
 
 	return render(request, "orders/menu.html", context)
@@ -144,8 +158,11 @@ def delete(request, order_entree_id):
 
 # View to display all of a user's past submitted orders
 def orders(request):
+	AdminPendingOrders = get_pending_orders(request)
+
 	context = {
 		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).order_by('-submitted_at'),
+		"AdminPendingOrders": AdminPendingOrders,
 	}
 
 	if request.user.is_authenticated:
@@ -155,11 +172,14 @@ def orders(request):
 
 # View to display all user's past orders to administrators
 def all_orders(request):
+	AdminPendingOrders = get_pending_orders(request)
+
 	if request.user.is_superuser:
 		allOrders = CustomerOrder.objects.filter(order_submitted=True).order_by('-submitted_at')
 
 		context = {
 			"allOrders": allOrders,
+			"AdminPendingOrders": AdminPendingOrders,
 		}
 
 		return render(request, "orders/all-orders.html", context)
@@ -207,6 +227,7 @@ def single_order(request, order_id):
 		"OrderRequested": OrderRequested,
 		"EntreesInOrder": EntreesInOrder,
 		"Total": Total,
+		"AdminPendingOrders": AdminPendingOrders,
 	}
 
 	if request.user == OrderUser or request.user.is_superuser:
@@ -216,6 +237,8 @@ def single_order(request, order_id):
 
 # View to display a user's unsubmitted order
 def cart(request):
+	AdminPendingOrders = get_pending_orders(request)
+
 	try:
 		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
 		OrderEntrees = MealsInOrder.objects.filter(order=CartOrder)
@@ -232,9 +255,12 @@ def cart(request):
 		context = {
 			"OrderEntrees": OrderEntrees,
 			"Total": Total,
+			"AdminPendingOrders": AdminPendingOrders,
 		}
 	except ObjectDoesNotExist:
-		context = {}
+		context = {
+			"AdminPendingOrders": AdminPendingOrders,
+		}
 
 	return render(request, "orders/cart.html", context)
 
