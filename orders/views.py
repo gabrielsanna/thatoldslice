@@ -49,6 +49,25 @@ def add_to_cart(request):
 	else:
 		return redirect('login')
 
+def add_pizza_to_cart(request):
+	if request.user.is_authenticated:
+		userId = request.user.id
+		pizzaId = int(request.POST["pizzaId"])
+		toppingIdList = request.POST["checkedToppings"]
+
+		# First, check if there's an unsubmitted order
+
+		try:
+			cartOrder = CustomerOrder.objects.filter(user=userId).get(order_submitted="False")
+		except ObjectDoesNotExist:
+			cartOrder = CustomerOrder.objects.create(user=userId)
+
+		newOrder = CustomerOrder(user=userId, )
+		m1 = Membership(person=ringo, group=beatles, date_joined=date(1962, 8, 16), invite_reason="Needed a new drummer.")
+
+		return redirect('menu')
+	else:
+		return redirect('login')
 
 # View to display all of a user's past submitted orders
 def orders(request):

@@ -2,6 +2,10 @@
 {% load static %}
 
 {% block body %}
+	<!-- Render CSRF token for external JS -->
+	<script>
+		var csrf_token = '{{ csrf_token }}';
+	</script>
 	<script src="{% static 'orders/menu.js' %}"></script>
 
 	<h3 class="menu-heading">Regular Pizzas</h3>		
@@ -63,10 +67,31 @@
 	<form action="/add-to-cart" method="post">
 	    {% csrf_token %}
 
+	    <div class="row mb-1">
+	    	<div class="col-4">
+			    <div class="btn-group btn-block btn-group-toggle" id="sub-option-group" data-toggle="buttons">
+					<label class="btn btn-danger active">
+						<input type="radio" name="sub-option" id="sub-option-large" autocomplete="off" value="Large" checked> Large
+					</label>
+					<label class="btn btn-danger">
+						<input type="radio" name="sub-option" id="sub-option-small" autocomplete="off" value="Small"> Small
+					</label>
+				</div>
+			</div>
+			<div class="col-8">
+			</div>
+		</div>
+
 	    <div class="row">
 	    	<div class="col">
-				<ul class="menu-list">
+				<ul class="menu-list" id="large-sub-list">
 				{% for sub in LargeSubs %}
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
+				{% endfor %}
+				</ul>
+
+				<ul class="menu-list hidden" id="small-sub-list">
+				{% for sub in SmallSubs %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
 				{% endfor %}
 				</ul>
@@ -138,8 +163,8 @@
 						<div class="row">
 						{% for topping in PizzaToppings %}
 							<div class="col">
-								<label class="btn btn-outline-success">
-									<input type="checkbox" autocomplete="off"> {{ topping }}
+								<label class="btn btn-outline-success topping-btn">
+									<input type="checkbox" name="topping" value="{{ topping.id }}" autocomplete="off"> {{ topping }}
 								</label>
 							</div>
 							{% if forloop.counter|divisibleby:2 %}
@@ -152,7 +177,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-success">Add to cart</button>
+					<button type="button" class="btn btn-success" id="modal-add-to-cart-btn" disabled>Add to cart</button>
 				</div>
 			</div>
 		</div>

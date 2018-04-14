@@ -10,52 +10,56 @@
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
+		<link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet"> 
 	</head>
 	<body>
-		<div class="container">
-			<nav class="gabenav navbar navbar-expand-lg navbar-light bg-light mb-4">
-				<a class="navbar-brand" href="/">That Old Slice</a>
+			<nav class="gabenav navbar navbar-expand-lg navbar-light bg-success mb-4">
+				<a class="navbar-brand" href="/">
+					<img src="{% static 'orders/img/pizza.png' %}" height="70">
+					<span class="h2 text-light">That Old Slice</span>
+				</a>
 
 				<div class="navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="/">Home</a>
+							<a class="nav-link text-light" href="/">Home</a>
 						</li>
 						{% if user.is_authenticated %}
 						<li class="nav-item">
-							<a class="nav-link" href="/menu">Menu</a>
+							<a class="nav-link text-light" href="/menu">Menu</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/cart">Cart</a>
+							<a class="nav-link text-light" href="/cart">Cart</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/orders">My Past Orders</a>
+							<a class="nav-link text-light" href="/orders">My Past Orders</a>
 						</li>
 						{% else %}
 						<li class="nav-item">
-							<a class="nav-link" href="/menu">Menu</a>
+							<a class="nav-link text-light" href="/menu">Menu</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/register">Place An Order</a>
+							<a class="nav-link text-light" href="/register">Place An Order</a>
 						</li>
 						{% endif %}
 					</ul>
 					<ul class="navbar-nav ml-auto mr-2">
 						{% if user.is_authenticated %}
 						<li>
-							<a class="nav-link btn-sm" href="/logout">Logout</a>
+							<a class="nav-link btn-sm text-light" href="/logout">Logout</a>
 						</li>
 						{% else %}
 						<li>
-							<a class="nav-link btn-sm" href="/register">Register</a>
+							<a class="nav-link btn-sm text-light" href="/register">Register</a>
 						</li>
 						<li>
-							<a class="nav-link btn-sm" href="/login">Login</a>
+							<a class="nav-link btn-sm text-light" href="/login">Login</a>
 						</li>
 						{% endif %}
 					</ul>
 				</div>
 			</nav>
+		<div class="container">
 
 		{% block body %}
 		{% endblock %}
