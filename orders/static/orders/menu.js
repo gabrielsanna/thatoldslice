@@ -157,5 +157,5 @@ function processModalSubmitButton(pizzaId, checkedToppings) {
 	data.append('checkedToppings', checkedToppings);
 
 	request.send(data);
-	return false;
+	return true;
 }

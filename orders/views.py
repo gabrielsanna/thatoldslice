@@ -2,6 +2,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist
@@ -67,6 +68,8 @@ def add_to_cart(request):
 		newEntree = MealsInOrder(order=cartOrder, food_item=currentEntree)
 		newEntree.save()
 
+		messages.add_message(request, messages.INFO, f"Added to cart: {str(newEntree)}")
+
 		return redirect('menu')
 	else:
 		return redirect('login')
@@ -96,6 +99,8 @@ def add_pizza_to_cart(request):
 
 		for topping in toppingList:
 			newPizza.toppings.add(topping)
+
+		messages.add_message(request, messages.INFO, f"Added to cart: {str(newPizza)}")
 
 		return redirect('menu')
 	else:
@@ -137,6 +142,16 @@ def complete_order(request, order_id):
 	if request.user.is_superuser:
 		orderToComplete = CustomerOrder.objects.get(id=order_id)
 		orderToComplete.order_completed = True
+		orderToComplete.save()
+
+		return redirect('all orders')
+	else:
+		return render(request, "orders/access-denied.html")
+
+def reopen(request, order_id):
+	if request.user.is_superuser:
+		orderToComplete = CustomerOrder.objects.get(id=order_id)
+		orderToComplete.order_completed = False
 		orderToComplete.save()
 
 		return redirect('all orders')

@@ -30,6 +30,7 @@ class Entree(models.Model):
 		(DINNERPLATTER, 'Dinner Platter'),
 	)
 
+	# Declare fields for the model
 	name = models.CharField(max_length=100)
 	entree_type = models.CharField(max_length=14, choices=TYPE_CHOICES, default=REGULARPIZZA)
 	size = models.CharField(max_length=5, choices=SIZE_CHOICES, default=NONE)
@@ -69,8 +70,23 @@ class CustomerOrder(models.Model):
 		return f"{submitted} order by {self.user} at {self.created_at}"
 
 # Model for the relationship between orders and the meals in those orders
+# We need a custom model for this so we can add toppings as an additional
+#   field to the relationship.
 class MealsInOrder(models.Model):
 	order = models.ForeignKey('CustomerOrder', on_delete=models.CASCADE)
 	food_item = models.ForeignKey('Entree', on_delete=models.CASCADE)
 	toppings = models.ManyToManyField(PizzaTopping, blank=True, related_name="pizzas")
+
+	def __str__(self):
+		if "Salad" in self.food_item.name and self.food_item.entree_type != "Dinner Platter":
+			nameString = self.food_item.name.replace(" Salad", "")
+		else:
+			nameString = self.food_item.name.lower()
+
+		if self.food_item.size == "None":
+			sizeString = ""
+		else:
+			sizeString = f"{self.food_item.size} "
+
+		return f"{sizeString}{nameString} {self.food_item.entree_type.lower()} (${self.food_item.price})"
 
