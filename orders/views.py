@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 from .models import *
 
@@ -51,19 +52,29 @@ def add_to_cart(request):
 
 def add_pizza_to_cart(request):
 	if request.user.is_authenticated:
-		userId = request.user.id
 		pizzaId = int(request.POST["pizzaId"])
 		toppingIdList = request.POST["checkedToppings"]
+		toppingIdList = toppingIdList.split(',')
 
-		# First, check if there's an unsubmitted order
+		# Instantiate all our objects
+		currentUser = User.objects.get(id=request.user.id)
+		currentPizza = Entree.objects.get(id=pizzaId)
+		toppingList = []
+		for toppingId in toppingIdList:
+			topping = PizzaTopping.objects.get(id=int(toppingId))
+			toppingList.append(topping)
 
+		# Check if there's an unsubmitted order and create one if not
 		try:
-			cartOrder = CustomerOrder.objects.filter(user=userId).get(order_submitted="False")
+			cartOrder = CustomerOrder.objects.filter(user=currentUser).get(order_submitted="False")
 		except ObjectDoesNotExist:
-			cartOrder = CustomerOrder.objects.create(user=userId)
+			cartOrder = CustomerOrder.objects.create(user=currentUser)
 
-		newOrder = CustomerOrder(user=userId, )
-		m1 = Membership(person=ringo, group=beatles, date_joined=date(1962, 8, 16), invite_reason="Needed a new drummer.")
+		newPizza = MealsInOrder(order=cartOrder, food_item=currentPizza)
+		newPizza.save()
+
+		for topping in toppingList:
+			newPizza.toppings.add(topping)
 
 		return redirect('menu')
 	else:
