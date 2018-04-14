@@ -1,7 +1,31 @@
 {% extends "orders/master.html" %}
 
-{% block body %}
-    <h1>Test</h1>
+{% block hero %}
+	<div class="hero row no-gutters">
+		<div class="col-5">
+		</div>
+		<div class="col">
+			<h1 class="text-white mt-5 display-1 hero-title">That Old Slice</h1>
+			<p class="text-white lead">Delicious (but imaginary) pizza since 2018.</p>
+		</div>
+	</div>
+{% endblock %}
 
-    <p>Here is the test</p>
+{% block body %}
+	{% if user.is_authenticated %}
+	<h2>Your Past Orders</h2>
+		{% if PastOrders %}
+			<ul>
+				{% for order in PastOrders %}
+					<li><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>You have no past orders! Head to the <a href="/menu">menu</a> to place an order!</p>
+		{% endif %}
+	{% else %}
+    <h2>You're not logged in!</h2>
+
+    <p><a href="/login">Click here to log in</a>, or <a href="/register">create a new account.</a></p>
+    {% endif %}
 {% endblock %}

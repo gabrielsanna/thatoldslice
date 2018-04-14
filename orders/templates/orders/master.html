@@ -59,7 +59,11 @@
 					</ul>
 				</div>
 			</nav>
-		<div class="container">
+
+		{% block hero %}
+		{% endblock %}
+
+		<div class="container pb-5">
 
 		{% block body %}
 		{% endblock %}

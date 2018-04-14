@@ -1,6 +1,24 @@
+/* Master template styles */
+
 .navbar-brand {
 	font-family: 'Satisfy', cursive;
 }
+
+/* Homepage styles */
+
+div.hero {
+	height: 400px;
+	width: 100%;
+	background-image: url("img/pizza-hero.jpg");
+	margin-top: -1.5rem;
+	margin-bottom: 1rem;
+}
+
+.hero-title {
+	font-family: 'Satisfy', cursive;
+}
+
+
 
 .menu-heading {
 	margin-top: 1em;

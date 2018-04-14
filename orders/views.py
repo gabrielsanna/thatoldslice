@@ -9,7 +9,10 @@ from .models import *
 
 # Create your views here.
 def index(request):
-	context = {}
+	context = {
+		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True),
+	}
+	
 	return render(request, "orders/index.html", context)
 
 def register(request):

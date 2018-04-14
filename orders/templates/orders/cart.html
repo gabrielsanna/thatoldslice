@@ -18,7 +18,16 @@
 		{% for entree in OrderEntrees %}
 		<tr>
 			<td>{{ entree.food_item.entree_type }}</td>
-			<td>{{ entree.food_item.name }}</td>
+			<td>
+				{{ entree.food_item.name }}
+				{% if entree.toppings.all %}
+					<ul>
+						{% for topping in entree.toppings.all %}
+						<li>{{ topping }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</td>
 			{% if entree.food_item.size == "None" %}
 			<td></td>
 			{% else %}
