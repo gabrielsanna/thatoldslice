@@ -60,30 +60,25 @@
 			<button class="btn btn-secondary btn-success pizza-btn" type="submit" id="{{ pizza.id }}" value="{{ pizza.id }}" name="entree">{{ pizza.name }}<br>${{ pizza.price }}</button>
 		{% endfor %}
 		</div>
-	</form>
+	</form>	
 
-	<h3 class="menu-heading">Subs</h3>		
+	<div class="row">
+		<div class="col">
+			<h3 class="menu-heading">Subs</h3>	
 
-	<form action="/add-to-cart/" method="post">
-	    {% csrf_token %}
-
-	    <div class="row mb-1">
-	    	<div class="col-4">
-			    <div class="btn-group btn-block btn-group-toggle" id="sub-option-group" data-toggle="buttons">
-					<label class="btn btn-danger active">
-						<input type="radio" name="sub-option" id="sub-option-large" autocomplete="off" value="Large" checked> Large
-					</label>
-					<label class="btn btn-danger">
-						<input type="radio" name="sub-option" id="sub-option-small" autocomplete="off" value="Small"> Small
-					</label>
-				</div>
-			</div>
-			<div class="col-8">
-			</div>
-		</div>
-
-	    <div class="row">
-	    	<div class="col">
+			<form action="/add-to-cart/" method="post">
+			    {% csrf_token %}
+	    	
+	    		<ul class="mb-1">
+	    			<li class="btn-group btn-block btn-group-toggle d-flex" id="sub-option-group" data-toggle="buttons" role="group">
+						<label class="btn btn-danger active w-100">
+							<input type="radio" name="sub-option" id="sub-option-large" autocomplete="off" value="Large" checked> Large
+						</label>
+						<label class="btn btn-danger w-100">
+							<input type="radio" name="sub-option" id="sub-option-small" autocomplete="off" value="Small"> Small
+						</label>
+					</li>
+				</ul>
 				<ul class="menu-list" id="large-sub-list">
 				{% for sub in LargeSubs %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
@@ -95,57 +90,50 @@
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ sub.id }}" value="{{ sub.id }}" name="entree">{{ sub.name }}: ${{ sub.price }}</button></li>
 				{% endfor %}
 				</ul>
-			</div>
-			<div class="col">
-			</div>
-			<div class="col">
-			</div>
+			</form>
 		</div>
-	</form>
 
-	<h3 class="menu-heading">Pasta</h3>		
+		<div class="col">
+			<h3 class="menu-heading">Pasta</h3>		
 
-	<form action="/add-to-cart/" method="post">
-	    {% csrf_token %}
+			<form action="/add-to-cart/" method="post">
+			    {% csrf_token %}
 
-		<div class="row">
-	    	<div class="col">
 				<ul class="menu-list">
 				{% for pasta in Pastas %}
 					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ pasta.id }}" value="{{ pasta.id }}" name="entree">{{ pasta.name }}: ${{ pasta.price }}</button></li>
 				{% endfor %}
 				</ul>
-			</div>
-			<div class="col">
-			</div>
-			<div class="col">
-			</div>
+			</form>
+
+			<h3 class="menu-heading">Salads</h3>		
+
+			<form action="/add-to-cart/" method="post">
+			    {% csrf_token %}
+  	
+				<ul class="menu-list">
+				{% for salad in Salads %}
+					<li class="mb-1"><button class="btn btn-block btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.id }}" name="entree">{{ salad.name }}: ${{ salad.price }}</button></li>
+				{% endfor %}
+				</ul>
+			</form>
 		</div>
-	</form>
 
-	<h3 class="menu-heading">Salads</h3>		
+		<div class="col">
 
-	<form action="/add-to-cart" method="post">
-	    {% csrf_token %}
+			<h3 class="menu-heading">Dinner Platters</h3>		
 
-		<div class="btn-group">
-		{% for salad in Salads %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ salad.id }}" value="{{ salad.id }}" name="entree">
-		{% endfor %}
+			<form action="/add-to-cart" method="post">
+			    {% csrf_token %}
+
+				<div class="btn-group">
+				{% for platter in LargeDinnerPlatters %}
+					<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.id }}" name="entree">
+				{% endfor %}
+				</div>
+			</form>
 		</div>
-	</form>
-
-	<h3 class="menu-heading">Dinner Platters</h3>		
-
-	<form action="/add-to-cart" method="post">
-	    {% csrf_token %}
-
-		<div class="btn-group">
-		{% for platter in LargeDinnerPlatters %}
-			<input class="btn btn-secondary btn-success" type="submit" id="{{ platter.id }}" value="{{ platter.id }}" name="entree">
-		{% endfor %}
-		</div>
-	</form>
+	</div>
 
 	<div class="modal fade" id="toppingsModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
