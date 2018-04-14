@@ -2,18 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Get all the buttons that may require toppings
 	var pizzaButtons = document.getElementsByClassName("pizza-btn");
 
+	// Attach listeners to all those buttons
     Array.from(pizzaButtons).forEach(function(element) {
 		element.addEventListener('click', processPizzaButton);
     });
 
+    // Set up listener for Regular Pizza sizes
 	document.querySelector('#regular-pizza-option-group').onclick = () => {
 		processRegularPizzaButton();
 	}
 
+	// Listener for Sicilian Pizza sizes
 	document.querySelector('#sicilian-pizza-option-group').onclick = () => {
 		processSicilianPizzaButton();
 	}
 
+	// Listener for Sub sizes
 	document.querySelector('#sub-option-group').onclick = () => {
 		processSubButton();
 	}

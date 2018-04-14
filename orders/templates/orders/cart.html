@@ -17,16 +17,15 @@
 		</tr>
 		{% for entree in OrderEntrees %}
 		<tr>
-			<td>{{ entree.entree_type }}</td>
-			<td>{{ entree.name }}</td>
-			{% if entree.size == "None" %}
+			<td>{{ entree.food_item.entree_type }}</td>
+			<td>{{ entree.food_item.name }}</td>
+			{% if entree.food_item.size == "None" %}
 			<td></td>
 			{% else %}
-			<td>{{ entree.size }}</td>
+			<td>{{ entree.food_item.size }}</td>
 			{% endif %}
-			<td>{{ entree.price }}</td>
+			<td>{{ entree.food_item.price }}</td>
 			<td class="text-center"><a href="/delete/{{ entree.id }}"><img src="{% static 'orders/img/trashcan.svg' %}"></a></td>
-			{{ entree.toppingsasdf }}
 		</tr>
 		{% endfor %}
 		<tr>
@@ -35,6 +34,7 @@
 			<th><strong>Total: </strong></th>
 			<th>{{ Total }}</th>
 			<th></th>
+		</tr>
 	</table>
 
 	<a class="btn btn-primary" href="/submit-order">Submit Order</a>
