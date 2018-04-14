@@ -3,19 +3,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	var pizzaButtons = document.getElementsByClassName("pizza-btn");
 
 	// Attach listeners to all those buttons
-    Array.from(pizzaButtons).forEach(function(element) {
+	Array.from(pizzaButtons).forEach(function(element) {
 		element.addEventListener('click', processPizzaButton);
-    });
+	});
 
-    // Get all Steak and Cheese buttons that may require toppings
-    var steakCheeseButtons = document.getElementsByClassName("steak-cheese-btn");
+	// Get all Steak and Cheese buttons that may require toppings
+	var steakCheeseButtons = document.getElementsByClassName("steak-cheese-btn");
 
-    // Attach listeners to all those buttons
-    Array.from(steakCheeseButtons).forEach(function(element) {
+	// Attach listeners to all those buttons
+	Array.from(steakCheeseButtons).forEach(function(element) {
 		element.addEventListener('click', processSteakCheeseButton);
-    });
+	});
 
-    // Set up listener for Regular Pizza sizes
+	// Set up listener for Regular Pizza sizes
 	document.querySelector('#regular-pizza-option-group').onclick = () => {
 		processRegularPizzaButton();
 	}
@@ -82,12 +82,12 @@ function processPizzaButton(event) {
 		// Add listeners for topping checkboxes
 		var toppingCheckboxes = document.getElementsByClassName("topping-btn");
 
-    	Array.from(toppingCheckboxes).forEach(function(element) {
+		Array.from(toppingCheckboxes).forEach(function(element) {
 			element.onclick = (event) => {
 				// Use a Promise so checks are counted as they happen
 				Promise.resolve().then(_ => {
 					enableDisableCartButton(maxToppings);
-    			});
+				});
 			}
 		});
 
@@ -125,7 +125,7 @@ function checkCheckedToppings() {
 
 	for (var i = 0; i < checkboxList.length; i++) {
 		if (checkboxList[i].checked) {
-        	toppingsChecked.push(checkboxList[i].value);
+			toppingsChecked.push(checkboxList[i].value);
 		}
 	}
 

@@ -23,13 +23,16 @@ def get_pending_orders(request):
 
 # Homepage with sweet public domain hero image
 def index(request):
-	AdminPendingOrders = get_pending_orders(request)
+	if request.user.is_authenticated:
+		AdminPendingOrders = get_pending_orders(request)
 
-	context = {
-		"PendingOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=False),
-		"CompletedOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=True),
-		"AdminPendingOrders": AdminPendingOrders,
-	}
+		context = {
+			"PendingOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=False),
+			"CompletedOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=True),
+			"AdminPendingOrders": AdminPendingOrders,
+		}
+	else:
+		context = {}
 
 	return render(request, "orders/index.html", context)
 
