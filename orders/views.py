@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
@@ -10,7 +12,8 @@ from .models import *
 # Create your views here.
 def index(request):
 	context = {
-		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True),
+		"PendingOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=False),
+		"CompletedOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).filter(order_completed=True),
 	}
 
 	return render(request, "orders/index.html", context)
@@ -109,7 +112,7 @@ def delete(request, order_entree_id):
 # View to display all of a user's past submitted orders
 def orders(request):
 	context = {
-		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True),
+		"PastOrders": CustomerOrder.objects.filter(user=request.user).filter(order_submitted=True).order_by('-submitted_at'),
 	}
 
 	if request.user.is_authenticated:
@@ -117,15 +120,26 @@ def orders(request):
 	else:
 		return redirect('login')
 
+# View to display all user's past orders to administrators
 def all_orders(request):
 	if request.user.is_superuser:
-		allOrders = CustomerOrder.objects.all()
+		allOrders = CustomerOrder.objects.filter(order_submitted=True).order_by('-submitted_at')
 
 		context = {
 			"allOrders": allOrders,
 		}
 
 		return render(request, "orders/all-orders.html", context)
+	else:
+		return render(request, "orders/access-denied.html")
+
+def complete_order(request, order_id):
+	if request.user.is_superuser:
+		orderToComplete = CustomerOrder.objects.get(id=order_id)
+		orderToComplete.order_completed = True
+		orderToComplete.save()
+
+		return redirect('all orders')
 	else:
 		return render(request, "orders/access-denied.html")
 
@@ -172,6 +186,7 @@ def submit(request):
 	try:
 		CartOrder = CustomerOrder.objects.filter(user=request.user).get(order_submitted=False)
 		CartOrder.order_submitted = True
+		CartOrder.submitted_at = datetime.datetime.now()
 		CartOrder.save()
 
 		return render(request, "orders/submitted.html")

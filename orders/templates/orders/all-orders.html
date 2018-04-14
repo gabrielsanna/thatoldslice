@@ -14,7 +14,7 @@
 		{% for order in allOrders %}
 		<tr>
 			<td>{{ order.user }}</td>
-			<td scope="row"><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></td>
+			<td scope="row"><a href="/order/{{ order.id }}">{{ order.submitted_at }}</a></td>
 			{% if order.order_completed %}
 			<td class="text-center"><img src="{% static 'orders/img/check.svg' %}"><a href="/reopen/{{ order.id }}"> Reopen</a></td>
 			{% else %}

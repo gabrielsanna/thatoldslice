@@ -13,15 +13,25 @@
 
 {% block body %}
 	{% if user.is_authenticated %}
-	<h2>Your Past Orders</h2>
-		{% if PastOrders %}
+	<h2>Your Pending Orders</h2>
+		{% if PendingOrders %}
 			<ul>
-				{% for order in PastOrders %}
+				{% for order in PendingOrders %}
 					<li><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></li>
 				{% endfor %}
 			</ul>
 		{% else %}
-			<p>You have no past orders! Head to the <a href="/menu">menu</a> to place an order!</p>
+			<p>You have no pending orders! Head to the <a href="/menu">menu</a> to place an order!</p>
+		{% endif %}
+	<h2>Your Completed Orders</h2>
+		{% if CompletedOrders %}
+			<ul>
+				{% for order in CompletedOrders %}
+					<li><a href="/order/{{ order.id }}">{{ order.updated_at }}</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>You have no completed orders! Head to the <a href="/menu">menu</a> to place an order!</p>
 		{% endif %}
 	{% else %}
     <h2>You're not logged in!</h2>
