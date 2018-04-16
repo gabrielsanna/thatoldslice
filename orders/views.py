@@ -213,6 +213,7 @@ def reopen(request, order_id):
 
 # Page to view the items in a single historical order
 def single_order(request, order_id):
+	AdminPendingOrders = get_pending_orders(request)
 	OrderRequested = CustomerOrder.objects.get(id=order_id)
 	EntreesInOrder = MealsInOrder.objects.filter(order=OrderRequested)
 	OrderUser = OrderRequested.user
